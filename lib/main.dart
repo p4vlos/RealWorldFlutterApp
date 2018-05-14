@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(new RealWorldApp());
 
@@ -12,6 +15,28 @@ class RealWorldApp extends StatefulWidget {
 class RealWorldState extends State<RealWorldApp> {
   var _isLoading = true;
 
+
+  _fetchData() async {
+    print("Attempting to fetch data from network");
+
+    final url = "https://api.letsbuildthatapp.com/youtube/home_feed";
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      print(response.body);
+
+      final map = json.decode(response.body);
+      final videosJson = map["videos"];
+      videosJson.forEach((video) {
+        print(video["name"]);
+      });
+      setState(() {
+        _isLoading = false;
+      });
+      // print(map["videos"]);
+    }    
+  }
+
   @override
     Widget build(BuildContext context) {
       // TODO: implement build
@@ -24,14 +49,15 @@ class RealWorldState extends State<RealWorldApp> {
               onPressed: () {
                 print("Reloading...");
                 setState(() {
-                  _isLoading = false;
+                  _isLoading = true;
                 });
+                _fetchData();
               },)
             ],
           ),
           body: new Center(
             child: _isLoading ? new CircularProgressIndicator() :
-              new Text("Finished Loading..."),
+              new Text("Finished Loading!!!..."),
           ),
         ),
       );
