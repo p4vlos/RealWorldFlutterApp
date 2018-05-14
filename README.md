@@ -1,9 +1,3 @@
-# real_world_app_lbta
+# Real World Flutter App
 
-A new Flutter project.
-
-## Getting Started
-
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
-# realWorldFlutterApp
+Playing with Flutter
